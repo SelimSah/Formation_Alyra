@@ -11,7 +11,7 @@ const generer = () => {
 
 const signer = (message, ClePriv) => {
   const sign = crypto.createSign('SHA256');
-  /* sign.update('some data to sign');*/
+  sign.update(message);
   sign.end();
   const signature = sign.sign(ClePriv);
   return signature;
