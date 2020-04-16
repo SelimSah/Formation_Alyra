@@ -1,0 +1,40 @@
+const https = require('https');
+const express = require('express');
+const app = express();
+const port = 8080;
+console.log('nous sommes dans le fichier server');
+
+const url =
+  'https://blockchain.info/rawblock/000000000002de92d93fcb92eeb2be097af8570a70fa5a8c6df473626891c9d6';
+
+app.get('/', (requete, response) => {
+  https.get(url, (res) => {
+    let resultat = '';
+    res.on('data', (data) => {
+      resultat += data;
+    });
+    res.on('end', () => {
+      let resultatJSON = JSON.parse(resultat);
+      let blockHeightDetails = [];
+      let timeDetails = [];
+      let hashDetails = [];
+      console.log(resultatJSON.n_tx);
+      for (let i = 0; i < resultatJSON.n_tx; i++) {
+        blockHeightDetails.push(resultatJSON.tx[i].block_height);
+        timeDetails.push(resultatJSON.tx[i].time);
+        hashDetails.push(resultatJSON.tx[i].hash);
+        response.send(
+          'Le block numéro' +
+            i +
+            '<br/>fait une taille de' +
+            blockHeightDetails[i] +
+            '<br/>à la date de ' +
+            new Date(timeDetails[i] * 1000) +
+            '</br> avec un hash de ' +
+            hashDetails[i]
+        );
+      }
+    });
+  });
+});
+app.listen(port);
