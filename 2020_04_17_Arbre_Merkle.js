@@ -1,4 +1,3 @@
-
 // Exercice 1.2.8 : Créer un arbre de Merkle
 //Écrire un programme qui étant donné des chaînes de caractères (A, B, C, D)
 //crée l'arbre de merkle correspondant et l’affiche.
@@ -28,9 +27,9 @@ function merkleTreeArray(inputNumbers, inputValueArray) {
   }
 
   for (j = 2; merkleTree[j - 1].length > 1; j++) {
-    for (l = 0; l < merkleTree[j - 1].length; ) {
+    for (l = 1; l < merkleTree[j - 1].length; ) {
       merkleTree[j].push(
-        hashInputs(merkleTree[j - 1][l].concat(merkleTree[j - 1][l + 1]))
+        hashInputs(merkleTree[j - 1][l - 1].concat(merkleTree[j - 1][l]))
       );
       l = l + 2;
     }
@@ -74,6 +73,6 @@ function Tree() {
 }
 
 const MTree = new Tree();
-MTree.merkleTree = merkleTreeArray(4, ['A', 'B', 'C', 'D']);
+MTree.merkleTree = merkleTreeArray(5, ['A', 'B', 'C', 'D', 'E']);
 console.log(MTree.merkleTree);
-console.log(MTree.preuve('D'));
+console.log(MTree.preuve('E'));
