@@ -4,10 +4,11 @@ contract Auction {
 mapping (address => uint) Bids;
    address currentLeader;
    uint highestBid;
-   
+
+//faire un log des offres
 function bidsRegistery () payable public{
-    Bids[msg.sender]+=msg.value;
-    require(Bids[msg.sender]>highestBid);
+    Bids[msg.sender]+=msg.value; //s'il veut rajouter de l'argent sur une offre précédente
+    require(Bids[msg.sender]>highestBid); //il ne devient en tête que si le ciumul de ses offres dépasse le highest bid
     currentLeader=msg.sender;
     highestBid=Bids[msg.sender];
 }
